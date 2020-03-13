@@ -54,6 +54,22 @@ let data = {
 
 const followersArray = [];
 
+axios.get('https://api.github.com/users/w-b28/followers')
+.then(response => {
+  console.log(response);
+  response.data.forEach(item => {
+    console.log(item)
+    axios.get(item.url)
+      .then(response => {
+        console.log(response);
+        document.querySelector('.cards').append(gitHubCard(response.data));
+      })
+  })
+})
+.catch(error => {
+  console.log("Error", error)
+})
+
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -94,14 +110,12 @@ function gitHubCard(data) {
 
   const location =  document.createElement('p');
   const profile = document.createElement('p');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
 
   const profileURL= document.createElement('a');
 
-  const followers = document.createElement('p');
-
-  const following = document.createElement('p');
-
-  const bio = document.createElement('p');
 
   realName.textContent = data.name;
   userName.textContent = data.login;
@@ -123,7 +137,8 @@ return card
 
 axios.get('https://api.github.com/users/w-b28')
   .then(response => {
-    console.log("Got William's")
+    console.log(response);
+    document.querySelector('.cards').append(gitHubCard(response.data))
   })
   .catch( error => {
     console.log("The data was not returned", error);
