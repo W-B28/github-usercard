@@ -5,38 +5,48 @@
 
 
 
-/* Step 2: Inspect and study the data coming back, this is YOUR
-   github info! You will need to understand the structure of this
-   data in order to use it to build your component function
+// Step 2: Inspect and study the data coming back, this is YOUR
+//    github info! You will need to understand the structure of this
+//    data in order to use it to build your component function
 
 
 let data = {
-   login: "W-B28",
-   id: 50033779,
-   node_id: "MDQ6VXNlcjUwMDMzNzc5",
-   avatar_url: "https://avatars1.githubusercontent.com/u/50033779?v=4",
-   gravatar_id: "",
-   url: "https://api.github.com/users/W-B28",
-   html_url: "https://github.com/W-B28",
-   followers_url: "https://api.github.com/users/W-B28/followers",
-   following_url: "https://api.github.com/users/W-B28/following{/other_user}",
-   gists_url: "https://api.github.com/users/W-B28/gists{/gist_id}",
-   starred_url: "https://api.github.com/users/W-B28/starred{/owner}{/repo}",
-   subscriptions_url: "https://api.github.com/users/W-B28/subscriptions",
-   organizations_url: "https://api.github.com/users/W-B28/orgs",
-   repos_url: "https://api.github.com/users/W-B28/repos",
-   events_url: "https://api.github.com/users/W-B28/events{/privacy}",
-   received_events_url: "https://api.github.com/users/W-B28/received_events",
-   type: "User",
-   site_admin: false,
-   name: null,
-   company: null,
-   blog: ""
-};
+    "login": "W-B28",
+    "id": 50033779,
+    "node_id": "MDQ6VXNlcjUwMDMzNzc5",
+    "avatar_url": "https://avatars1.githubusercontent.com/u/50033779?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/W-B28",
+    "html_url": "https://github.com/W-B28",
+    "followers_url": "https://api.github.com/users/W-B28/followers",
+    "following_url": "https://api.github.com/users/W-B28/following{/other_user}",
+    "gists_url": "https://api.github.com/users/W-B28/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/W-B28/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/W-B28/subscriptions",
+    "organizations_url": "https://api.github.com/users/W-B28/orgs",
+    "repos_url": "https://api.github.com/users/W-B28/repos",
+    "events_url": "https://api.github.com/users/W-B28/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/W-B28/received_events",
+    "type": "User",
+    "site_admin": false,
+    "name": null,
+    "company": null,
+    "blog": "",
+    "location": null,
+    "email": null,
+    "hireable": true,
+    "bio": null,
+    "public_repos": 56,
+    "public_gists": 0,
+    "followers": 16,
+    "following": 25,
+    "created_at": "2019-04-26T22:37:21Z",
+    "updated_at": "2020-05-07T19:55:30Z"
+}
 
 
-   Skip to Step 3.
-*/
+  //  Skip to Step 3.
+
 
 /* Step 4: Pass the data received from Github into your function,
            create a new component and add it to the DOM as a child of .cards
@@ -52,23 +62,23 @@ let data = {
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = [];
 
-axios.get('https://api.github.com/users/w-b28/followers')
-.then(response => {
-  console.log(response);
-  response.data.forEach(item => {
-    console.log(item)
-    axios.get(item.url)
-      .then(response => {
-        console.log(response);
-        document.querySelector('.cards').append(gitHubCard(response.data));
-      })
-  })
-})
-.catch(error => {
-  console.log("Error", error)
-})
+// axios.get('https://api.github.com/users/w-b28/followers')
+// .then(response => {
+//   console.log(response);
+//   response.data.forEach(item => {
+//     console.log(item)
+//     axios.get(item.url)
+//       .then(response => {
+//         console.log(response);
+//         document.querySelector('.cards').append(gitHubCard(response.data));
+//       })
+//   })
+// })
+// .catch(error => {
+//   console.log("Error", error)
+// })
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -90,59 +100,131 @@ axios.get('https://api.github.com/users/w-b28/followers')
 
 */
 
-function gitHubCard(data) {
-  const card = document.createElement('div');
-  card.classList.add('card');
+// New code
 
-  const cardInfo = document.createElement('div');
+function newGitHubCard(data) {
+  const newCard = document.createElement('div')
+  newCard.classList.add('card')
+  
+  const gitHubImage = document.createElement('img')
+  gitHubImage.src = data.avatar_url
+
+  const cardInfo = document.createElement('div')
+  
+  const name = document.createElement('h3')
+  name.classList.add('name')
+  name.textContent = data.name
+  
+  const userName = document.createElement('p')
+  userName.classList.add('username')
+  userName.textContent = data.login
+
+  const location = document.createElement('p')
+  location.textContent = data.location
+
+  const profile = document.createElement('p')
+  const profileURL = document.createElement('a')
+  profileURL.textContent = data.html_url
+  profile.appendChild(profileURL)
+
+  const followers = document.createElement('p')
+  followers.textContent = data.followers
 
 
-  const image = document.createElement('img');
+  const following = document.createElement('p')
+  following.textContent = data.following
 
 
-
-  const realName = document.createElement('h3');
-  realName.classList.add('name');
-
-  const userName = document.createElement('p');
-  userName.classList.add('username');
+  const bio = document.createElement('p')
+  bio.textContent = data.bio
 
 
-  const location =  document.createElement('p');
-  const profile = document.createElement('p');
-  const followers = document.createElement('p');
-  const following = document.createElement('p');
-  const bio = document.createElement('p');
+  newCard.append(gitHubImage);
+  newCard.append(cardInfo);
+  newCard.append(profile);
+  cardInfo.append(name, userName, location, profileURL, followers, following, bio);
 
-  const profileURL= document.createElement('a');
-
-
-  realName.textContent = data.name;
-  userName.textContent = data.login;
-  profileURL.textContent = data.html_url;
-  image.src = data.avatar_url;
-  location.textContent = data.location;
-  followers.textContent = data.followers;
-  following.textContent =data.following;
-  bio.textContent = data.bio;
-
-  card.append(image);
-  card.append(cardInfo);
-  card.append(profile);
-  cardInfo.append(realName, userName, location, profileURL, followers, following, bio);
-
-return card
+  return newCard
 
 }
+
 
 axios.get('https://api.github.com/users/w-b28')
   .then(response => {
     console.log(response);
-    document.querySelector('.cards').append(gitHubCard(response.data))
+    document.querySelector('.cards').append(newGitHubCard(response.data))
   })
-  .catch( error => {
+  .catch(error => {
     console.log("The data was not returned", error);
   });
+
+
+
+axios.get('https://api.github.com/users/w-b28/followers')
+.then(response => {
+  console.log(response);
+  response.data.forEach(item => {
+    console.log(item)
+    axios.get(item.url)
+      .then(response => {
+        console.log(response);
+        document.querySelector('.cards').append(newGitHubCard(response.data));
+      })
+  })
+})
+.catch(error => {
+  console.log("Error", error)
+})
+
+
+
+
+// function gitHubCard(data) {
+//   const card = document.createElement('div');
+//   card.classList.add('card');
+
+//   const cardInfo = document.createElement('div');
+
+
+//   const image = document.createElement('img');
+
+
+
+//   const realName = document.createElement('h3');
+//   realName.classList.add('name');
+
+//   const userName = document.createElement('p');
+//   userName.classList.add('username');
+
+
+//   const location =  document.createElement('p');
+//   const profile = document.createElement('p');
+//   const followers = document.createElement('p');
+//   const following = document.createElement('p');
+//   const bio = document.createElement('p');
+
+//   const profileURL= document.createElement('a');
+
+
+//   realName.textContent = data.name;
+//   userName.textContent = data.login;
+//   profileURL.textContent = data.html_url;
+//   image.src = data.avatar_url;
+//   location.textContent = data.location;
+//   followers.textContent = data.followers;
+//   following.textContent =data.following;
+//   bio.textContent = data.bio;
+
+  // card.append(image);
+  // card.append(cardInfo);
+  // card.append(profile);
+  // cardInfo.append(realName, userName, location, profileURL, followers, following, bio);
+
+// return card
+
+// }
+
+
 
 /* List of LS Instructors Github username's:
   tetondan
